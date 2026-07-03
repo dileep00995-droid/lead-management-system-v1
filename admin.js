@@ -1,292 +1,284 @@
-const API_URL =
+// =============================
+// Configuration
+// =============================
+
+const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbxSrTngCSq8H7qitmGlAEck-M9Ny0IIT9pjgeZXD5x9gEjX_f60iTXxscvxKc9tMh-d5w/exec";
+const OWNER_NAME = "Himank";
+// =============================
+// WhatsApp Number
+// =============================
 
-let allLeads = [];
+const phoneInput = document.querySelector("#phone");
+const submitBtn = document.querySelector(".submit-btn");
 
-// Load Leads
-async function loadLeads() {
+const iti = window.intlTelInput(phoneInput, {
+  initialCountry: "in",
+  preferredCountries: ["in", "us", "gb"],
+  separateDialCode: true,
+  strictMode: true,
+});
 
-    const refreshBtn = document.getElementById("refreshBtn");
+// =============================
+// Country Dropdown
+// =============================
 
-    refreshBtn.disabled = true;
-    refreshBtn.innerHTML = `
-        <i data-lucide="loader-circle"></i>
-        <span>Loading...</span>
-    `;
+async function loadCountries() {
+  const response = await fetch("data/countries.json");
+  const countries = await response.json();
 
-    lucide.createIcons();
+  countries.sort((a, b) => a.name.localeCompare(b.name));
 
-    try {
+  const country = document.getElementById("country");
 
-        const response = await fetch(API_URL);
+  country.innerHTML = "";
 
-        allLeads = await response.json();
+  countries.forEach((c) => {
+    const option = document.createElement("option");
 
-        allLeads.reverse();
+    option.value = c.name;
+    option.textContent = `${c.emoji} ${c.name}`;
 
-        renderTable(allLeads);
+    country.appendChild(option);
+  });
 
-    } catch (error) {
-
-        alert("Unable to load leads.");
-
-        console.error(error);
-
-    }
-
-    refreshBtn.disabled = false;
-
-    refreshBtn.innerHTML = `
-        <i data-lucide="refresh-cw"></i>
-        <span>Refresh</span>
-    `;
-
-    lucide.createIcons();
-
+  new TomSelect("#country", {
+    create: false,
+    placeholder: "Search Country...",
+  });
 }
 
-// Render Table
-function renderTable(leads) {
+loadCountries();
+function showError(id, message) {
+  document.getElementById(id + "Error").textContent = message;
 
-    const table = document.getElementById("leadTable");
+  document.getElementById(id).classList.add("input-error");
+}
 
-    table.innerHTML = "";
+function clearError(id) {
+  document.getElementById(id + "Error").textContent = "";
 
-    // No Leads Found
-    if (leads.length === 0) {
+  document.getElementById(id).classList.remove("input-error");
+}
 
-        table.innerHTML = `
-            <tr>
-                <td colspan="6" style="text-align:center;padding:40px;">
-                    <h3>No Leads Found</h3>
-                    <p>Try a different search.</p>
-                </td>
-            </tr>
-        `;
+// =============================
+// Submit Form
+// =============================
 
-        document.getElementById("totalLeads").textContent = 0;
-        document.getElementById("todayLeads").textContent = 0;
-        document.getElementById("countryCount").textContent = 0;
-        document.getElementById("topCourse").textContent = "-";
+document
+  .getElementById("leadForm")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    let isValid = true;
 
-        return;
+    clearError("fullName");
+
+    const fullNameInput = document.getElementById("fullName");
+    const fullName = fullNameInput.value.trim();
+
+    if (fullName === "") {
+      showError("fullName", "Full Name is required.");
+
+      isValid = false;
+    } else {
+      clearError("fullName");
     }
+    clearError("email");
 
-    leads.forEach((lead, index) => {
+    const email = document.getElementById("email").value.trim();
 
-        table.innerHTML += `
-        <tr>
-            <td>${new Date(lead.date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-})}</td>
-            <td>${lead.name}</td>
-            <td>${lead.email}</td>
-            <td>${lead.country}</td>
-            <td>${lead.certification}</td>
-            <td>
-                <button class="view-btn" onclick="viewLead(${index})">
-                    <i data-lucide="eye"></i>
-                    <span>View</span>
-                </button>
-            </td>
-        </tr>
-        `;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    });
+    if (email === "") {
+      showError("email", "Email is required.");
 
-    lucide.createIcons();
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      showError("email", "Enter a valid email address.");
 
-    document.getElementById("totalLeads").textContent = leads.length;
+      isValid = false;
+    } else {
+      clearError("email");
+    }
+    clearError("country");
 
-    const today = new Date();
+    const country = document.getElementById("country").value;
 
-    const todayCount = leads.filter((lead) => {
+    if (country === "") {
+      showError("country", "Please select a country.");
 
-        const leadDate = new Date(lead.date);
+      isValid = false;
+    } else {
+      clearError("country");
+    }
+    // WhatsApp Validation
 
-        return (
-            leadDate.getDate() === today.getDate() &&
-            leadDate.getMonth() === today.getMonth() &&
-            leadDate.getFullYear() === today.getFullYear()
+    clearError("phone");
+
+    const phone = phoneInput.value.trim();
+
+    if (phone === "") {
+
+    showError("phone", "WhatsApp Number is required.");
+
+    isValid = false;
+
+} else if (phone.length < 8) {
+
+    showError("phone", "Please enter a valid WhatsApp Number.");
+
+    isValid = false;
+
+} else {
+
+    clearError("phone");
+
+}
+    // Certification Validation
+
+    clearError("certification");
+
+    const certification = document.getElementById("certification").value;
+
+    if (certification === "") {
+      showError("certification", "Please select a certification.");
+
+      isValid = false;
+    } else {
+      clearError("certification");
+    }
+    // Other Certification Validation
+
+clearError("otherCertification");
+
+if (certification === "Other") {
+
+    const otherCertification = document
+        .getElementById("otherCertification")
+        .value
+        .trim();
+
+    if (otherCertification === "") {
+
+        showError(
+            "otherCertification",
+            "Please enter certification name."
         );
 
-    }).length;
+        isValid = false;
 
-    document.getElementById("todayLeads").textContent = todayCount;
+    } else {
 
-    document.getElementById("countryCount").textContent =
-        new Set(leads.map((lead) => lead.country)).size;
+        clearError("otherCertification");
 
-    const certificationCount = {};
+    }
 
-    leads.forEach((lead) => {
+}
+    if (!isValid) return;
 
-        certificationCount[lead.certification] =
-            (certificationCount[lead.certification] || 0) + 1;
+
+
+submitBtn.disabled = true;
+submitBtn.innerHTML =
+    '<span class="spinner"></span>Submitting...';
+    const data = {
+  fullName: document.getElementById("fullName").value,
+
+  email: document.getElementById("email").value,
+
+  country: document.getElementById("country").value,
+
+  whatsapp:
+    "'" +
+    "+" +
+    iti.getSelectedCountryData().dialCode +
+    phoneInput.value.replace(/\s/g, ""),
+
+  certification:
+    document.getElementById("certification").value === "Other"
+      ? document.getElementById("otherCertification").value
+      : document.getElementById("certification").value,
+
+  chatTime: document.getElementById("chatTime").value,
+
+  comments: document.getElementById("comments").value,
+
+  owner: OWNER_NAME
+};
+
+    try {
+      const response = await fetch(WEB_APP_URL, {
+        method: "POST",
+
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+
+    document.getElementById("leadForm").style.display = "none";
+
+document.getElementById("thankYouScreen").style.display = "block";
+
+    document.getElementById("leadForm").reset();
+
+    document.getElementById("otherCertificationGroup").style.display = "none";
+
+    document.getElementById("otherCertification").value = "";
+
+    document.getElementById("country").tomselect.clear(true);
+
+    submitBtn.disabled = false;
+
+    submitBtn.textContent = "Submit";
+
+} else {
+
+    submitBtn.disabled = false;
+
+    submitBtn.textContent = "Submit";
+
+    alert(result.message);
+
+}
+    } catch (error) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+
+    console.error(error);
+
+    alert(error.message);
+}
+  });
+const certification = document.getElementById("certification");
+const otherCertificationGroup = document.getElementById(
+  "otherCertificationGroup",
+);
+
+certification.addEventListener("change", function () {
+  if (this.value === "Other") {
+    otherCertificationGroup.style.display = "block";
+  } else {
+    otherCertificationGroup.style.display = "none";
+
+    document.getElementById("otherCertification").value = "";
+  }
+});
+document
+    .getElementById("newResponseBtn")
+    .addEventListener("click", function () {
+
+        document.getElementById("thankYouScreen").style.display = "none";
+
+        document.getElementById("leadForm").style.display = "block";
+
+        document.getElementById("leadForm").reset();
+
+        document.getElementById("country").tomselect.clear(true);
+
+        document.getElementById("otherCertificationGroup").style.display = "none";
+        submitBtn.disabled = false;
+submitBtn.textContent = "Submit";
 
     });
-
-    let topCourse = "-";
-    let max = 0;
-
-    for (const cert in certificationCount) {
-
-        if (certificationCount[cert] > max) {
-
-            max = certificationCount[cert];
-            topCourse = cert;
-
-        }
-
-    }
-
-    document.getElementById("topCourse").textContent = topCourse;
-
-}
-
-// Load data when page opens
-loadLeads();
-
-// Search
-document.getElementById("search").addEventListener("input", function () {
-  const text = this.value.toLowerCase();
-
-  const filtered = allLeads.filter(
-    (lead) =>
-      lead.name.toLowerCase().includes(text) ||
-      lead.email.toLowerCase().includes(text) ||
-      lead.country.toLowerCase().includes(text) ||
-      lead.certification.toLowerCase().includes(text)
-  );
-
-  renderTable(filtered);
-});
-document.getElementById("refreshBtn").addEventListener("click", () => {
-
-    loadLeads();
-
-});
-function viewLead(index) {
-
-    const lead = allLeads[index];
-
-    document.getElementById("leadDetails").innerHTML = `
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="user"></i>
-                <span>Full Name</span>
-            </div>
-            <strong>${lead.name}</strong>
-        </div>
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="mail"></i>
-                <span>Email</span>
-            </div>
-            <strong>
-    <a href="mailto:${lead.email}" class="detail-link">
-        ${lead.email}
-    </a>
-</strong>
-        </div>
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="phone"></i>
-                <span>WhatsApp</span>
-            </div>
-            <strong>
-    <a href="https://wa.me/${lead.whatsapp.replace(/\D/g,'')}"
-       target="_blank"
-       class="detail-link">
-        ${lead.whatsapp}
-    </a>
-</strong>
-        </div>
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="globe"></i>
-                <span>Country</span>
-            </div>
-            <strong>${lead.country}</strong>
-        </div>
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="graduation-cap"></i>
-                <span>Certification</span>
-            </div>
-            <strong>${lead.certification}</strong>
-        </div>
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="clock-3"></i>
-                <span>Best Time</span>
-            </div>
-            <strong>${lead.chatTime}</strong>
-        </div>
-
-        <div class="detail-item">
-            <div class="detail-label">
-                <i data-lucide="message-square"></i>
-                <span>Comments</span>
-            </div>
-            <strong>${lead.comments || "No comments provided"}</strong>
-        </div>
-
-    `;
-
-    document.getElementById("leadModal").style.display = "flex";
-
-    lucide.createIcons();
-
-}
-document.querySelector(".close-btn").addEventListener("click", function () {
-
-    document.getElementById("leadModal").style.display = "none";
-
-});
-window.addEventListener("click", function (event) {
-
-    if (event.target.id === "leadModal") {
-
-        document.getElementById("leadModal").style.display = "none";
-
-    }
-
-});
-lucide.createIcons();
-document.getElementById("exportBtn").addEventListener("click", exportCSV);
-
-function exportCSV() {
-
-    if (allLeads.length === 0) {
-        alert("No leads available to export.");
-        return;
-    }
-
-    let csv = "Date,Name,Email,Country,WhatsApp,Certification,Best Time,Comments\n";
-
-    allLeads.forEach((lead) => {
-
-        csv += `"${new Date(lead.date).toLocaleDateString()}","${lead.name}","${lead.email}","${lead.country}","${lead.whatsapp}","${lead.certification}","${lead.chatTime}","${lead.comments || ""}"\n`;
-
-    });
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-
-    const link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-
-    link.download = `Leads_${new Date().toISOString().slice(0,10)}.csv`;
-
-    link.click();
-
-}
