@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Lead Form</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- International Phone -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/css/intlTelInput.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Left Panel -->
+      <div class="left-panel">
+        <h1>IT & Professional Certifications</h1>
+
+        <p class="hero-text">
+          Advance your career with globally recognized certifications.
+        </p>
+
+        <div class="hero-features">
+          <div>✅ Hassle Free Process</div>
+
+          <div>✅ Passing Assurance Without Risk</div>
+
+          <div>✅ 24×7 Support</div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="right-panel">
+        <div class="form-card">
+          <div class="form-header">
+            <span class="wave">👋</span>
+
+            <h2>Inquiry Registration</h2>
+
+            <p>
+              Let's get started.<br />
+              Please fill in the details below.
+            </p>
+          </div>
+<div id="successMessage" class="success-message" style="display:none;">
+
+    ✅ Your enquiry has been submitted successfully.
+    <br>
+    Our team will contact you shortly.
+
+</div>
+<div id="successMessage" class="success-message">
+    ✅ Your enquiry has been submitted successfully.
+</div>
+          <form id="leadForm">
+            <div class="section-title">Personal Information</div>
+
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="fullName">Full Name *</label>
+
+              <input
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+              />
+              <small class="error" id="fullNameError"></small>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email address"
+              />
+
+              <small class="error" id="emailError"></small>
+            </div>
+            <!-- Email -->
+
+            <div class="section-title">Contact Information</div>
+
+            <!-- Country -->
+            <div class="form-group">
+              <label for="country">Country *</label>
+
+              <select id="country"></select>
+
+              <small class="error" id="countryError"></small>
+            </div>
+
+            <!-- WhatsApp Number -->
+            <div class="section-title">Mobile Number</div>
+
+            <div class="form-group">
+              <label for="phone">WhatsApp Number *</label>
+
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Enter WhatsApp Number"
+              />
+
+              <small class="error" id="phoneError"></small>
+            </div>
+            <!-- WhatsApp -->
+
+            <div class="section-title">Certification Information</div>
+
+            <!-- Certification -->
+
+            <div class="form-group">
+              <label for="certification">Certification Interested In *</label>
+
+              <select id="certification">
+                <option value="">Select Certification</option>
+
+                <option>PMP</option>
+                <option>CAPM</option>
+                <option>CISA</option>
+                <option>CISM</option>
+                <option>CRISC</option>
+                <option>CISSP</option>
+                <option>Security+</option>
+                <option>CAMS</option>
+                <option>ITIL 4</option>
+                <option>ISO 27001</option>
+                <option>Other</option>
+              </select>
+
+              <small class="error" id="certificationError"></small>
+            </div>
+            <div
+              class="form-group"
+              id="otherCertificationGroup"
+              style="display: none"
+            >
+              <label for="otherCertification">
+                Please Specify Certification *
+              </label>
+
+              <input
+                type="text"
+                id="otherCertification"
+                placeholder="Enter certification name"
+              />
+              <small class="error" id="otherCertificationError"></small>
+            </div>
+            <!-- Best Time -->
+            <div class="form-group">
+              <label for="chatTime">Best Time To Chat / Call *</label>
+
+              <select id="chatTime">
+                <option value="">Select Time</option>
+
+                <option>09:00 AM - 11:00 AM</option>
+                <option>11:00 AM - 01:00 PM</option>
+                <option>01:00 PM - 03:00 PM</option>
+                <option>03:00 PM - 05:00 PM</option>
+                <option>05:00 PM - 07:00 PM</option>
+                <option>07:00 PM - 09:00 PM</option>
+              </select>
+              <small class="error" id="chatTimeError"></small>
+            </div>
+            <!-- Comments -->
+            <div class="form-group">
+              <label for="comments">Comments</label>
+
+              <textarea
+                id="comments"
+                rows="5"
+                placeholder="Tell us anything you'd like us to know..."
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Submit</button>
+          </form>
+          <div id="thankYouScreen" class="thank-you-screen">
+
+    <div class="thank-you-icon">✅</div>
+
+    <h2>Thank You!</h2>
+
+    <p>
+        Your enquiry has been submitted successfully.
+        <br>
+        Our team will contact you shortly.
+    </p>
+
+    <button id="newResponseBtn" class="submit-btn">
+        Submit Another Response
+    </button>
+
+</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>

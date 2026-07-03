@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lead Management Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="admin.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>IT & Professional Certifications</h2>
+
+        <ul>
+
+            <li class="active">Dashboard</li>
+
+            <li>Leads</li>
+
+            <li>Analytics</li>
+
+            <li>Settings</li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="content">
+
+        <div class="page-header">
+
+    <div>
+        <h1>Lead Dashboard</h1>
+        <p>Manage and monitor all enquiries in one place.</p>
+    </div>
+
+    <div class="header-actions">
+
+    <button id="exportBtn">
+        <i data-lucide="download"></i>
+        <span>Export CSV</span>
+    </button>
+
+    <button id="refreshBtn">
+        <i data-lucide="refresh-cw"></i>
+        <span>Refresh</span>
+    </button>
+
+</div>
+
+</div>
+
+        <!-- Cards -->
+
+        <div class="cards">
+
+    <div class="card">
+        <div class="card-icon">
+            <i data-lucide="users"></i>
+        </div>
+
+        <div class="card-content">
+            <h3>Total Leads</h3>
+            <p id="totalLeads">0</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">
+            <i data-lucide="calendar-days"></i>
+        </div>
+
+        <div class="card-content">
+            <h3>Today's Leads</h3>
+            <p id="todayLeads">0</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">
+            <i data-lucide="globe"></i>
+        </div>
+
+        <div class="card-content">
+            <h3>Countries</h3>
+            <p id="countryCount">0</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">
+            <i data-lucide="graduation-cap"></i>
+        </div>
+
+        <div class="card-content">
+            <h3>Top Course</h3>
+            <p id="topCourse">-</p>
+        </div>
+    </div>
+
+</div>
+
+        <!-- Search -->
+
+        <div class="toolbar">
+
+    <div class="search-box">
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Search by Name, Email, Country..."
+    >
+    </div>
+
+
+</div>
+        <!-- Table -->
+
+        <table>
+
+            <thead>
+
+                <tr>
+    <th>Date</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Country</th>
+    <th>Certification</th>
+    <th>Action</th>
+</tr>
+            </thead>
+
+            <tbody id="leadTable">
+
+            </tbody>
+
+        </table>
+
+    </main>
+
+</div>
+<div id="leadModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-btn">&times;</span>
+
+        <h2>Lead Details</h2>
+
+        <div id="leadDetails"></div>
+
+    </div>
+
+</div>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="admin.js"></script>
+
+</body>
+
+</html>
