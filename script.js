@@ -4,7 +4,7 @@
 
 const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbxSrTngCSq8H7qitmGlAEck-M9Ny0IIT9pjgeZXD5x9gEjX_f60iTXxscvxKc9tMh-d5w/exec";
-
+const OWNER_NAME = "Himank";
 // =============================
 // WhatsApp Number
 // =============================
@@ -201,8 +201,10 @@ submitBtn.innerHTML =
 
       chatTime: document.getElementById("chatTime").value,
 
-      comments: document.getElementById("comments").value,
-    };
+    comments: document.getElementById("comments").value,
+
+owner: OWNER_NAME
+};
 
     try {
       const response = await fetch(WEB_APP_URL, {
