@@ -207,6 +207,8 @@ owner: OWNER_NAME
 };
 
     try {
+      console.log("OWNER_NAME =", OWNER_NAME);
+console.log(data);
       const response = await fetch(WEB_APP_URL, {
         method: "POST",
 
