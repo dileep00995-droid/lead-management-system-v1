@@ -207,6 +207,8 @@ submitBtn.innerHTML =
 };
 
     try {
+        console.log("OWNER_NAME:", OWNER_NAME);
+console.log("Data being sent:", data);
       const response = await fetch(WEB_APP_URL, {
         method: "POST",
 
