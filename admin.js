@@ -85,6 +85,7 @@ function renderTable(leads) {
             <td>${lead.email}</td>
             <td>${lead.country}</td>
             <td>${lead.certification}</td>
+            <td>${lead.owner || "-"}</td>
             <td>
                 <button class="view-btn" onclick="viewLead(${index})">
                     <i data-lucide="eye"></i>
@@ -157,7 +158,8 @@ document.getElementById("search").addEventListener("input", function () {
       lead.name.toLowerCase().includes(text) ||
       lead.email.toLowerCase().includes(text) ||
       lead.country.toLowerCase().includes(text) ||
-      lead.certification.toLowerCase().includes(text)
+      lead.certification.toLowerCase().includes(text) ||
+lead.owner.toLowerCase().includes(text)
   );
 
   renderTable(filtered);
@@ -224,6 +226,13 @@ function viewLead(index) {
             </div>
             <strong>${lead.certification}</strong>
         </div>
+        <div class="detail-item">
+    <div class="detail-label">
+        <i data-lucide="user-check"></i>
+        <span>Owner</span>
+    </div>
+    <strong>${lead.owner || "-"}</strong>
+</div>
                 <div class="detail-item">
             <div class="detail-label">
                 <i data-lucide="clock-3"></i>
