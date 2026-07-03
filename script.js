@@ -250,7 +250,8 @@ document.getElementById("thankYouScreen").style.display = "block";
 
     console.error(error);
 
-    alert(error.message);
+    alert(error.message);alert(JSON.stringify(error));
+console.error(error);
 }
   });
 const certification = document.getElementById("certification");
