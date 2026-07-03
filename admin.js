@@ -16,7 +16,7 @@ const iti = window.intlTelInput(phoneInput, {
   initialCountry: "in",
   preferredCountries: ["in", "us", "gb"],
   separateDialCode: true,
-  strictMode: false,
+  strictMode: true,
   loadUtils: () =>
     import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/js/utils.js"),
 });
