@@ -4,7 +4,10 @@
 
 const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbxSrTngCSq8H7qitmGlAEck-M9Ny0IIT9pjgeZXD5x9gEjX_f60iTXxscvxKc9tMh-d5w/exec";
-const OWNER_NAME = "Himank";
+const urlParams = new URLSearchParams(window.location.search);
+
+const OWNER_NAME =
+    urlParams.get("owner") || "Himank";
 // =============================
 // WhatsApp Number
 // =============================

@@ -520,3 +520,37 @@ tbody tr:hover{
 .detail-link:hover{
     text-decoration:underline;
 }
+.toolbar{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.search-box{
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.search-box input{
+    flex: 1;
+    margin-bottom: 0;
+}
+
+#ownerFilter{
+    width: 220px;
+    height: 50px;
+    padding: 0 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+    transition: .25s;
+}
+
+#ownerFilter:focus{
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}

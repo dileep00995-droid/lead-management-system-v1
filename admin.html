@@ -48,7 +48,7 @@
         <div class="page-header">
 
     <div>
-        <h1>Lead Dashboard</h1>
+        <h1 id="dashboardTitle">Lead Dashboard</h1>
         <p>Manage and monitor all enquiries in one place.</p>
     </div>
 
@@ -63,6 +63,10 @@
         <i data-lucide="refresh-cw"></i>
         <span>Refresh</span>
     </button>
+    <button id="logoutBtn">
+    <i data-lucide="log-out"></i>
+    <span>Logout</span>
+</button>
 
 </div>
 
@@ -115,6 +119,16 @@
             <p id="topCourse">-</p>
         </div>
     </div>
+    <div class="card" id="myLeadsCard">
+    <div class="card-icon">
+        <i data-lucide="user-check"></i>
+    </div>
+
+    <div class="card-content">
+        <h3>My Leads</h3>
+        <p id="myLeads">0</p>
+    </div>
+</div>
 
 </div>
 
@@ -129,6 +143,10 @@
         id="search"
         placeholder="Search by Name, Email, Country..."
     >
+    <select id="ownerFilter">
+    <option value="All">All Owners</option>
+    <option value="Himank">Himank</option>
+</select>
     </div>
 
 
@@ -146,6 +164,7 @@
     <th>Country</th>
     <th>Certification</th>
     <th>Owner</th>
+    <th>Status</th>
     <th>Action</th>
 </tr>
             </thead>
